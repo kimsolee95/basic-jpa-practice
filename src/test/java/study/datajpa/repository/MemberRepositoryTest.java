@@ -160,11 +160,11 @@ public class MemberRepositoryTest {
   public void paging() {
     //given
     memberRepository.save(new Member("member1", 10));
-    memberRepository.save(new Member("member2", 20));
-    memberRepository.save(new Member("member3", 30));
-    memberRepository.save(new Member("member4", 40));
-    memberRepository.save(new Member("member5", 50));
-    memberRepository.save(new Member("member6", 60));
+    memberRepository.save(new Member("member2", 10));
+    memberRepository.save(new Member("member3", 10));
+    memberRepository.save(new Member("member4", 10));
+    memberRepository.save(new Member("member5", 10));
+    memberRepository.save(new Member("member6", 10));
 
     int age = 10;
     PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Direction.DESC, "username"));
@@ -181,7 +181,7 @@ public class MemberRepositoryTest {
     assertThat(page.getNumber()).isEqualTo(0);
     assertThat(page.getTotalPages()).isEqualTo(2);
     assertThat(page.isFirst()).isTrue();
-
+    assertThat(page.hasNext()).isTrue();
   }
 
 
