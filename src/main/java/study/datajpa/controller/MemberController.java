@@ -3,10 +3,13 @@ package study.datajpa.controller;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.repository.MemberRepository;
 
@@ -28,8 +31,19 @@ public class MemberController {
   }
 
   @GetMapping("/members")
-  public Page<Member> list(Pageable pageable) {
-    return memberRepository.findAll(pageable);
+  public Page<MemberDto> list(Pageable pageable) {
+    Page<Member> page = memberRepository.findAll(pageable);
+    Page<MemberDto> map = page.map(member -> new MemberDto(member.getId(), member.getUsername(), null));
+    return map;
+  }
+
+  @GetMapping("/v2/members")
+  public Page<MemberDto> listV2(@PageableDefault(size = 5) Pageable pageable) {
+
+    PageRequest request = PageRequest.of(1, 2);
+    Page<MemberDto> map = memberRepository.findAll(request)
+        .map(MemberDto::new);
+    return map;
   }
 
   @PostConstruct
@@ -38,6 +52,5 @@ public class MemberController {
       memberRepository.save(new Member("user" + i, i));
     }
   }
-
 }
 
