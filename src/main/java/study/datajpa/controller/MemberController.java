@@ -37,14 +37,14 @@ public class MemberController {
     return map;
   }
 
-  @GetMapping("/v2/members")
-  public Page<MemberDto> listV2(@PageableDefault(size = 5) Pageable pageable) {
-
-    PageRequest request = PageRequest.of(1, 2);
-    Page<MemberDto> map = memberRepository.findAll(request)
-        .map(MemberDto::new);
-    return map;
-  }
+//  @GetMapping("/v2/members")
+//  public Page<MemberDto> listV2(@PageableDefault(size = 5) Pageable pageable) {
+//
+//    PageRequest request = PageRequest.of(1, 2);
+//    Page<MemberDto> map = memberRepository.findAll(request)
+//        .map(MemberDto::new);
+//    return map;
+//  }
 
   @PostConstruct
   public void init() {
